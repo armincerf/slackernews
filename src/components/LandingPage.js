@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import gql from 'graphql-tag';
-import { Mutation, Subscription } from 'react-apollo';
-import { fetchOnlineUsersSubscription } from './OnlineUsers';
+import { Mutation } from 'react-apollo';
 import "../App.css";
 
 const addUser = gql`
@@ -15,16 +14,17 @@ const addUser = gql`
       returning {
         id
         username
+      id
       }
     }
-  }
-`;
+}`;
+
+const login = (username, insert_user) => {
+ console.log(username); 
+ insert_user()
+}
 
 const LandingPage = (props) => {
-  <Subscription
-        subscription={fetchOnlineUsersSubscription}
-      ></Subscription>
-      const user_exists = data.user_online;
   const handleKeyPress = (key, mutate, loading) => {
     if (!loading && key.charCode === 13) {
       mutate();
@@ -48,10 +48,10 @@ const LandingPage = (props) => {
         (insert_user, { data, loading, error }) => {
           return (
             <div>
-              <div class="jumbotron login-container">
-                <h1 class="display-4">Hello, and welcome to AlexChat!</h1>
-                <p class="lead">This is a chat room where you can chat with the one and only Alex!*</p>
-                <hr class="my-4" />
+              <div className="jumbotron login-container">
+                <h1 className="display-4">Hello, and welcome to AlexChat!</h1>
+                <p className="lead">This is a chat room where you can chat with the one and only Alex!*</p>
+                <hr className="my-4" />
                 <input
                   type="text"
                   className="form-control username"
@@ -67,8 +67,8 @@ const LandingPage = (props) => {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      if (props.username.match(/^[a-zA-Z0-9_-]{3,15}$/g) && !user_exists()) {
-                        insert_user();
+                      if (props.username.match(/^[a-zA-Z0-9_-]{3,15}$/g)) {
+                        login(props.username, insert_user);
                       } else {
                         alert("Invalid username. Spaces and special characters not allowed. Please try again");
                         props.setUsername('');

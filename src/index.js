@@ -14,12 +14,11 @@ const scheme = (proto) => {
   return window.location.protocol === 'https:' ? `${proto}s` : proto;
 }
 const HASURA_GRAPHQL_ENGINE_HOSTNAME = 'big-muskox-47.hasura.app';
-export const GRAPHQL_ENDPOINT = `${scheme('http')}://${HASURA_GRAPHQL_ENGINE_HOSTNAME}/v1/graphql`;
+export const GRAPHQL_ENDPOINT = `${scheme('https')}://${HASURA_GRAPHQL_ENGINE_HOSTNAME}/v1/graphql`;
 export const WEBSOCKET_ENDPOINT = `${scheme('ws')}://${HASURA_GRAPHQL_ENGINE_HOSTNAME}/v1/graphql`;
 
 // Make WebSocketLink with appropriate url
 const mkWsLink = (uri) => {
-  const splitUri = uri.split('//');
   const subClient = new SubscriptionClient(
     WEBSOCKET_ENDPOINT,
     { reconnect: true }
